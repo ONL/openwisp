@@ -17,4 +17,5 @@ WORKDIR tests/
 CMD ["./docker-entrypoint.sh"]
 EXPOSE 8000
 
+VOLUME /usr/src/app/tests
 ENV NAME openwisp-controller
