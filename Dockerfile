@@ -1,6 +1,11 @@
-FROM python:3-onbuild
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
 
-WORKDIR .
+FROM python:3.6
+
 RUN apt-get update && apt-get install -y \
     openssl \
     sqlite3 \
@@ -12,6 +17,17 @@ RUN apt-get update && apt-get install -y \
     libspatialite-dev \
     zlib1g \
     zlib1g-dev
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+ONBUILD COPY requirements.txt /usr/src/app/
+ONBUILD RUN pip install --no-cache-dir -r requirements.txt
+
+ONBUILD COPY . /usr/src/app
+
+
+WORKDIR .
 
 RUN pip3 install -U pip setuptools wheel
 RUN pip3 install -U .
